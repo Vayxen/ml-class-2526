@@ -4,7 +4,7 @@ __generated_with = "0.21.1"
 app = marimo.App()
 
 with app.setup:
-    import pandas as pd
+    import polars as pl
     import numpy as np
 
 
