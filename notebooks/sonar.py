@@ -110,7 +110,7 @@ def _():
 
 
 @app.cell
-def _(y_pred, y_test):
+def confusion_matrix(y_pred, y_test):
     from sklearn.metrics import confusion_matrix
 
     confmat = confusion_matrix(y_test, y_pred)
@@ -130,7 +130,7 @@ def _(y_pred, y_test):
 
 
 @app.cell(hide_code=True)
-def _(y_pred, y_test):
+def metrics(y_pred, y_test):
     from sklearn.metrics import (
         accuracy_score,
         precision_score,
