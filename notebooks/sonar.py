@@ -38,7 +38,7 @@ def _():
     df["Oggetto"] = df["Oggetto"].replace({"R": 0, "M": 1})
 
     x = df.iloc[:, :-1]
-    y = df["Oggetto"]
+    y = df["Oggetto"].values.ravel()
 
     df.head()
     return x, y
@@ -55,9 +55,10 @@ def _():
 @app.cell
 def _(x, y):
     seed = random.randint(0, 50)
+    fix_seed = 42
 
     x_train, x_test, y_train, y_test = train_test_split(
-        x, y, test_size=0.2, random_state=seed, stratify=y
+        x, y, test_size=0.2, random_state=fix_seed, stratify=y
     )
 
     lda = LinearDiscriminantAnalysis()
@@ -65,7 +66,7 @@ def _(x, y):
 
     x_train_scaled = sc.fit_transform(x_train)
     x_test_scaled = sc.transform(x_test)
-    return lda, x_test, x_train, y_test, y_train
+    return lda, x_test_scaled, x_train_scaled, y_test, y_train
 
 
 @app.cell(hide_code=True)
@@ -77,9 +78,9 @@ def _():
 
 
 @app.cell
-def _(lda, x_test, x_train, y_train):
-    y_pred = lda.fit(x_train, y_train).predict(
-        x_test
+def _(lda, x_test_scaled, x_train_scaled, y_train):
+    y_pred = lda.fit(x_train_scaled, y_train).predict(
+        x_test_scaled
     )  # il dataset di test è come un foglio di verifica
     return (y_pred,)
 
