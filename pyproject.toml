@@ -5,8 +5,17 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "keras>=3.13.2",
     "marimo>=0.21.1",
+    "matplotlib>=3.10.8",
+    "nbformat>=5.10.4",
+    "numpy>=2.4.4",
+    "pandas>=3.0.1",
+    "polars>=1.39.3",
     "pyzmq>=27.1.0",
+    "scikit-learn>=1.8.0",
+    "seaborn>=0.13.2",
+    "torch>=2.11.0",
 ]
 
 [tool.marimo.language_servers.pylsp]
@@ -17,3 +26,11 @@ enable_flake8 = false        # Linting with flake8
 enable_pydocstyle = false    # Check docstring style
 enable_pylint = false        # Linting with pylint
 enable_pyflakes = false      # Syntax checking with pyflakes
+
+[dependency-groups]
+dev = [
+    "python-lsp-ruff>=2.3.0",
+    "python-lsp-server>=1.14.0",
+    "ruff>=0.15.8",
+    "websockets>=16.0",
+]
