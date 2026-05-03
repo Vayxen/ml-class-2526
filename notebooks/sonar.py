@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.21.1"
+__generated_with = "0.23.2"
 app = marimo.App(auto_download=["ipynb"])
 
 with app.setup:
@@ -48,14 +48,19 @@ def _():
 
     # df["Oggetto"] = df["Oggetto"].replace({"R": 0, "M": 1}).infer_objects()
 
-    # Quello sopra è un approccio manuale, tuttavia sklearn offre un metodo più diretto per occuparsi della codifica numerica di label di tipo letterale, come segue:
+    # Quello sopra è un approccio manuale, tuttavia sklearn ha già una funzione che fa esattamente la cosa sopra:
+
     le = LabelEncoder()
     df["Oggetto"] = le.fit_transform(df["Oggetto"])
+
+    # Scelta convenzionale in ML è di chiamare x il vettore dei dati
+    # ed y quello dele etichette
 
     x = df.iloc[:, :-1]
     y = df["Oggetto"].values.ravel()
 
     df.head()
+    print(y)
     return x, y
 
 
@@ -78,7 +83,7 @@ def _(x, y):
         x, y, test_size=0.2, random_state=seed, stratify=y
     )
 
-    lda = LinearDiscriminantAnalysis()
+    lda = LinearDiscriminantAnalysis(solver="lsqr", shrinkage="auto")
     sc = StandardScaler()
 
     x_train_scaled = sc.fit_transform(x_train)
@@ -157,6 +162,29 @@ def _(accuracy, f1, precision, recall):
     - Recall: ${round(recall, 4) * 100}\%$
     - F1-score: ${round(f1, 4) * 100}\%$
     """)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    # Feature selection sequenziale
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    Nell'allenamento di un algoritmo, possiamo **ridurre lo spazio delle feature**. Questo serve a:
+    - alleggerire computazionalmente l'algoritmo, poiché riducendo le dimensioni riduciamo le operazioni di analisi e calcolo
+    - *potenzialmente* migliorare la performance del modello: talvolta ridurre lo spazio delle feature rimuove qualsiasi statistica che per il modello è inutile o addirittura negativamente influente sull'apprendimento.
+    """)
+    return
+
+
+@app.cell
+def _():
     return
 
 

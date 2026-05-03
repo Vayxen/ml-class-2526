@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.21.1"
+__generated_with = "0.23.2"
 app = marimo.App(auto_download=["ipynb"])
 
 with app.setup(hide_code=True):
@@ -24,7 +24,7 @@ def _():
     mo.md(r"""
     # Algoritmo k-NN e prima applicazione di sklearn
 
-    Il **k-NN** (*k-nearest neighbors*) è un semplice algoritmo *supervisionato*. L'idea di fondo è, in maniera concettualmente simile al k-means clustering, di considerare $k$ punti "vicini" ad un certo dato ed assegnare al dato selezionato la classe più popolare in quel gruppo.
+    Il **k-NN** (*k-nearest neighbors*) è un semplice algoritmo *supervisionato*. L'idea di fondo è, in maniera concettualmente simile (**ma non coincidente**) al k-means clustering, di considerare $k$ punti "vicini" ad un certo dato ed assegnare al dato selezionato la classe più popolare in quel gruppo.
     ***
     """)
     return
