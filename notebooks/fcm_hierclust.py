@@ -44,7 +44,7 @@ def _(mo):
     - (forse semplice implementazione?)
 
     **Contro**:
-    - Costo computazionale alto (di base ha complessità temporale cubica e richiede un quantitativo tendenzialmente quadratico di memoria)
+    - Costo computazionale alto (di base ha complessità temporale cubica e richiede un quantitativo circa quadratico di memoria)
     """)
     return
 

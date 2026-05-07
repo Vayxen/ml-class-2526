@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.23.2"
+__generated_with = "0.23.5"
 app = marimo.App(auto_download=["ipynb"])
 
 with app.setup:
@@ -54,7 +54,7 @@ def _():
     df["Oggetto"] = le.fit_transform(df["Oggetto"])
 
     # Scelta convenzionale in ML è di chiamare x il vettore dei dati
-    # ed y quello dele etichette
+    # ed y quello delle etichette
 
     x = df.iloc[:, :-1]
     y = df["Oggetto"].values.ravel()
@@ -168,6 +168,14 @@ def _(accuracy, f1, precision, recall):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
+    I valori qui sopra si aggirano sulla fascia $70-80\%$, che può essere migliorata. Si applica allora un algoritmo di riduzione delle feature (esistono alcuni metodi già inclusi in scikit-learn, ma qui si opera un semplice for-loop).
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
     # Feature selection sequenziale
     """)
     return
@@ -184,7 +192,9 @@ def _():
 
 
 @app.cell
-def _():
+def _(x):
+    feature_count = x.shape[1]
+    # visto che sappiamo che x è un vettore 1D in realtà va bene anche il metodo nativo .len(), anche perché ci aspettiamo uno scalare
     return
 
 
