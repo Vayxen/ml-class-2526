@@ -69,10 +69,10 @@ def _(mo):
 
 
 @app.cell
-def _(x_test, x_train):
-    scaler = StandardScaler()
-    x_train_scaled = scaler.fit_transform(x_train)
-    x_test_scaled = scaler.transform(x_test)
+def _():
+    # scaler = StandardScaler()
+    # x_train_scaled = scaler.fit_transform(x_train)
+    # x_test_scaled = scaler.transform(x_test)
     return
 
 
@@ -87,10 +87,10 @@ def _(mo):
 @app.cell
 def _(x, y):
     seed = randint(0, 100)
-    test_seed = 42
+    test_seed = 4211
 
     x_train, x_test, y_train, y_test = train_test_split(
-        x, y, test_size=0.2, random_state=seed, stratify=y
+        x, y, test_size=0.15, random_state=seed, stratify=y
     )
 
 
@@ -100,7 +100,7 @@ def _(x, y):
 
     rf_classifier.fit(x_train, y_train)
     y_pred = rf_classifier.predict(x_test)
-    return x_test, x_train, y_pred, y_test
+    return y_pred, y_test
 
 
 @app.cell(hide_code=True)
@@ -128,6 +128,9 @@ def _(y_pred, y_test):
     accuracy = accuracy_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred)
     recall = recall_score(y_test, y_pred)
+
+
+    print(accuracy, precision, recall)
     return accuracy, precision, recall
 
 
