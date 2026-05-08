@@ -63,22 +63,6 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    # Analisi (ed eventuale scaling) delle feature
-    """)
-    return
-
-
-@app.cell
-def _():
-    # scaler = StandardScaler()
-    # x_train_scaled = scaler.fit_transform(x_train)
-    # x_test_scaled = scaler.transform(x_test)
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
     # Applicazione del modello
     """)
     return
