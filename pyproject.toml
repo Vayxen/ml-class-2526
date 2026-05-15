@@ -19,6 +19,7 @@ dependencies = [
     "seaborn>=0.13.2",
     "sympy>=1.14.0",
     "torch>=2.11.0",
+    "yfinance>=1.3.0",
 ]
 
 [tool.marimo.language_servers.pylsp]

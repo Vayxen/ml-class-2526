@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.23.5"
+__generated_with = "0.23.6"
 app = marimo.App()
 
 
@@ -50,7 +50,8 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    # Le metriche di performance
+    ***
+    *Non tutti i modelli necessitano di dati scalati*. Alcuni ne sono poco influenzati (ad esempio modelli come il naive-Bayes e le foreste casuali), talvolta potrebbe essere anche dannoso se dei dati perdono relazioni di non linearità a causa dello scaling.
     """)
     return
 
@@ -58,8 +59,17 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ***
-    *Non tutti i modelli necessitano di dati scalati*. Alcuni ne sono poco influenzati (ad esempio modelli come il naive-Bayes e le foreste casuali), talvolta potrebbe essere anche dannoso se dei dati perdono relazioni di non linearità a causa dello scaling.
+    # Le metriche di performance
+
+    Vi sono tante quantità che possono valutare la performance di un modello, si riportano principalmente *accuratezza, precisione, recall, F1-score*.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    todo: curva roc
     """)
     return
 
