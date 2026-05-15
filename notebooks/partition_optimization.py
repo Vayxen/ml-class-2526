@@ -78,7 +78,108 @@ def _(mo):
 
 @app.cell
 def _():
-    # from sklearn.model_selection import LeaveOneOut
+    from sklearn.model_selection import LeaveOneOut
+
+    loocv = LeaveOneOut()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Trattandosi di un metodo di partizionamento particolarmente/estremamente "esaustivo", vanno fatte alcune considerazioni sul campo di applicazione. Sia ad esempio un dataset di 1000 vettori di dati. Con il L1O, se nel dataset è presente un gruppo di dati particolarmente correlati, l'insieme di classificatori nei quali il singolo rimosso è ciascuno dei dati correlati tra loro finirà per non mostrare performance/metriche particolarmente diverse. Di fatto, pur avendo rimosso il dato "problematico", i dati correlati all'interno del training set causano qualche forma di bias nel modello finale. Per ovviare a questo problema, invece di rimuovere necessariamente il singolo, possiamo decidere di rimuovere un **gruppo** di dati
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Time-series splitting
+
+    Come suggerisce il nome, è utile nei dataset dove è presente una dipendenza temporale (ad esempio misure prolungate nel tempo, dunque mercato finanziario/meteo/qualsiasi sensore che misura continuamente un dato fenomeno). Lo splitting è allora eseguito in modo tale che il training faccia da "storico" delle misure, laddove il dataset di test è costituito di dati tutti temporalmente successivi al training (come se fossero delle rilevazioni successive). Permette, concettualmente, che il modello effettui previsioni sull'andamento delle misure nel tempo, simulando anche il possibile andamento per dati non ancora ricevuti. Pandas è molto comodo su questo fronte: possiamo effettuare un sorting di tutta la matrice dei dati sfruttando la colonna che rappresenta l'istante di rilevazione. Effettuata la suddivisione temporale, il metodo di partizione `TimeSeriesSplit` può sfruttare ulteriori tecniche di partizione come il k-fold in fase di addestramento del modello.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    # Data augmentation
+
+    Siano ad esempio dei dati ottenuti da un esperimento: può capitare di dover sintetizzare dei dati attraverso interpolazione (simulando ulteriori dati in base alla distribuzione dei dati reali). I motivi di questa scelta potrebbero derivare ad esempio da un forte sbilanciamento dei dati, per motivi di natura strumentale o proprio fisica (perché è possibile che l'evento in esame sia particolarmente raro). L'idea non è solo fisica: potremmo incrementare la risoluzione di un file audio o immagini (cosa che accade ad esempio con le reti neurali convoluzionali). Esistono vari metodi e tecniche: si elencano alcuni esempi.
+
+    ## SMOTE (*Synthetic Minority Oversampling TEchnique*)
+
+    Come suggerisce il nome, il metodo genera dati aggiuntivi specificamente della classe in difetto, al fine di bilanciare meglio il dataset. Il funzionamento è il seguente:
+    1. Si seleziona un'istanza della classe minoritaria
+    2. Si effettua un k-nearest neighbors (solitamente k=5)
+    3. Si seleziona uno dei vicini casualmente
+    4. Si interpola tra il dato selezionato di riferimento ed il vicino, considerando (geometricamente parlando) un punto sul segmento che li collega, con un parametro di distanza casuale tra 0 ed 1
+    5. Si ripete questo processo quante volte si ritiene necessario.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    # Un'applicazione dei metodi sopracitati
+
+    Lo si applica al database *breast*, in particolare facciamo un esempio con la 10-fold CV ed il modello Support Vector.
+    """)
+    return
+
+
+@app.cell
+def _():
+    # Import parziali
+
+    from sklearn.datasets import load_breast_cancer
+    from sklearn.model_selection import cross_val_score
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.svm import SVC
+    from sklearn.metrics import confusion_matrix
+
+    # Import totali
+
+    import pandas as np
+    import numpy as np
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+
+    # Assegnazione del dataset completo, delle misure e della colonna delle etichette
+    dataset = load_breast_cancer
+    x = dataset.data
+    y = dataset.target
+
+    # Standardizzo
+
+    scaler = StandardScaler()
+    x_scaled = scaler.fit_transform(x)
+
+    # Carico il modello e sfrutto la 10-fold cross-validation
+
+    model = SVC(C=3.0)
+    # di default usa kernel rbf e gamma = "scale"
+    # inoltre C è il parametro che fa da "costo" sugli errori
+    cv_scores = cross_val_score(model, x_scaled, y=y, cv=10)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Così facendo stiamo addestrando il modello su 10 partizionamenti diversi dei dati (come addestrare 10 modelli diversi).
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    TODO: continualo guardando il file ipynb
+    """)
     return
 
 

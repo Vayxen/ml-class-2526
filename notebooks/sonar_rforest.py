@@ -5,22 +5,23 @@ app = marimo.App(width="medium", css_file="", auto_download=["ipynb"])
 
 with app.setup:
     # Import completi
+    from random import randint
+
+    import matplotlib.pyplot as plt
     import numpy as np
     import pandas as pd
-    import matplotlib.pyplot as plt
     import seaborn as sns
 
     # Import parziali
     from sklearn.ensemble import RandomForestClassifier
-    from sklearn.preprocessing import StandardScaler, LabelEncoder
-    from sklearn.model_selection import train_test_split
     from sklearn.metrics import (
-        confusion_matrix,
         accuracy_score,
-        recall_score,
+        confusion_matrix,
         precision_score,
+        recall_score,
     )
-    from random import randint
+    from sklearn.model_selection import train_test_split
+    from sklearn.preprocessing import LabelEncoder, StandardScaler
 
 
 @app.cell
@@ -44,7 +45,6 @@ def _():
     titles = [f"Banda {number}" for number in range(0, 60)]
     titles.append("Oggetto")
 
-
     df = pd.read_csv(
         "https://archive.ics.uci.edu/ml/machine-learning-databases/undocumented/connectionist-bench/sonar/sonar.all-data",
         names=titles,
@@ -63,6 +63,34 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    # Analisi delle feature
+    """)
+    return
+
+
+@app.cell
+def _(x):
+    corrmatrix = x.corr()
+
+    sns.heatmap(corrmatrix, cmap="coolwarm")
+    plt.show()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    TODO:
+
+    - Aumenta dimensioni del grafico
+    - Varia i parametri uno ad uno ed esamina la performance del modello
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     # Applicazione del modello
     """)
     return
@@ -76,7 +104,6 @@ def _(x, y):
     x_train, x_test, y_train, y_test = train_test_split(
         x, y, test_size=0.15, random_state=seed, stratify=y
     )
-
 
     rf_classifier = RandomForestClassifier(
         n_estimators=501, max_samples=0.65, random_state=seed
@@ -113,19 +140,27 @@ def _(y_pred, y_test):
     precision = precision_score(y_test, y_pred)
     recall = recall_score(y_test, y_pred)
 
-
-    print(accuracy, precision, recall)
+    print(f"A: {accuracy}\nP: {precision}\nR: {recall}")
     return accuracy, precision, recall
 
 
 @app.cell(hide_code=True)
 def _(accuracy, mo, precision, recall):
     mo.md(rf"""
-    Il modello ha mostrato le seguenti metriche di performance: 
+    Il modello ha mostrato le seguenti metriche di performance:
 
     - Accuratezza: ${round(accuracy, 4) * 100}\%$
     - Precisione: ${round(precision, 4) * 100}\%$
     - Recall: ${round(recall, 4) * 100}\%$
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    TODO:
+    - Applica LDA per riduzione dello spazio delle feature.
     """)
     return
 
