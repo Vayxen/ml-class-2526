@@ -25,8 +25,8 @@ def _(mo):
 
     Esempi di questi metodi sono:
 
-    - ***bagging*** (*bootstrap aggregating*), che crea diversi insiemi di addestramento, utilizzati su modelli diversi, combinando il risultato finale per media o maggioranza, come le foreste casuali; questo riduce la varianza delle previsioni effettuate dai singoli modelli, guadagnando dunque in stabilità
-    - ***boosting***, dove l'addestramento avviene in maniera sequenziale (ogni addestramento successivo avviene basandosi sulle performance precedenti, come l'*XGBoost*); i modelli imparano in particolare assegnando dei pesi maggiori agli errori dei modelli precedenti
+    - ***bagging*** (slang per *bootstrap aggregating*), che crea diversi insiemi di addestramento, utilizzati su modelli diversi, combinando il risultato finale per media o maggioranza, come le foreste casuali; questo riduce la varianza delle previsioni effettuate dai singoli modelli, guadagnando dunque in stabilità;
+    - ***boosting***, dove l'addestramento avviene in maniera sequenziale (ogni addestramento successivo avviene basandosi sulle performance precedenti, come l'*XGBoost* o *Adaboost*): i modelli imparano in particolare assegnando dei pesi maggiori agli errori dei modelli precedenti. Trova largo utilizzo in apprendimento supervisionato, sia nella classificazione di dati etichettati che nella regressione;
     - ***stacking***, che addestra un *meta-*modello al fine di renderlo un "classificatore di classificatori", con l'obiettivo di apprendere *come combinare le previsioni dei modelli di base*.
 
 

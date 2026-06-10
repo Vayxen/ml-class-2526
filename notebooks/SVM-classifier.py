@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.23.5"
+__generated_with = "0.23.8"
 app = marimo.App(width="medium", auto_download=["ipynb"])
 
 
@@ -26,7 +26,7 @@ def _(mo):
 
 @app.cell
 def _(np, plt):
-    x = np.sort
+    x = np.linspace(0, 10)
     print(x)
 
     sine = np.sin(x)

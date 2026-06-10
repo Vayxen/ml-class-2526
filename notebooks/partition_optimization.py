@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.23.5"
+__generated_with = "0.23.9"
 app = marimo.App(width="medium", auto_download=["ipynb"])
 
 
@@ -16,7 +16,7 @@ def _(mo):
     mo.md(r"""
     # Partizionamento dei dati e ottimizzazione dei parametri
 
-    Particolarmente importante è che i dati vengano partizionati nei set appropriati (training, test ed eventuale validation). Il validation è una specie di "pre-test" sul quale studiamo la performance del modello al variare dei parametri di apprendimento relativi al modello specifico utilizzato. Una volta arrivati al test set, stiamo testando il modelllo "definitivo".
+    Particolarmente importante è che i dati vengano partizionati nei set appropriati (training, test ed eventuale validation). Il validation è una specie di "pre-test" sul quale studiamo la performance del modello al variare dei parametri di apprendimento relativi al modello specifico utilizzato. Una volta arrivati al test set, stiamo testando il modello "definitivo".
 
     Per ottimizzare i parametri possiamo far ricorso a diversi approcci:
     - *brute force*, che prova tutte le possibili combinazioni
@@ -25,7 +25,7 @@ def _(mo):
 
     ## Approccio di forza bruta
 
-    1. Il primo passaggio è definire lo spazio dei paramtri/iperparametri (ad esempio, negli alberi decisionali, esempi di iperparametri sono la profondità dell'albero, i campioni che ogni foglia deve contenere ad ogni suddivisione, etc..., o per il k-means il parametro è k...). Ad esempio, nel k-means, l'intervallo su cui facciamo variare k è generalmente $k \in \left[1, \dfrac{N_{classi} -1}{2}\right]$
+    1. Il primo passaggio è definire lo spazio dei parametri/iperparametri (ad esempio, negli alberi decisionali, esempi di iperparametri sono la profondità dell'albero, i campioni che ogni foglia deve contenere ad ogni suddivisione, etc..., o per il k-means il parametro è k...). Ad esempio, nel k-means, l'intervallo su cui facciamo variare k è generalmente $k \in \left[1, \dfrac{N_{classi} -1}{2}\right]$
     2. Si generano poi tutte le possibili combinazioni dei suddetti iperparametri. Chiaramente non lavoriamo su intervalli continui: quindi un intervallo della forma $[A_{\min},A_{\max}]$ avrà valori che decidiamo di equispaziare, ad esempio con $\Delta = \frac{A_{max}- A_{min}}{n}$. Questo implica ad esempio che con $N$ iperparametri che contengono $M$ valori possibili, le configurazioni totali sono $M^N$ (e ne deduciamo il costo computazionale elevato per modelli con tanti iperparametri).
     3. Si tentano tutte le sopracitate combinazioni, valutando la performance del modello in seguito (con le tecniche di valutazione della performance come ad esempio la cross-validation e quant'altro).
     4. Si seleziona dunque la combinazione che ha restituito la migliore performance.
@@ -53,12 +53,12 @@ def _(mo):
 
 @app.cell
 def _():
-    from sklearn.model_selection import KFold  # , cross_val_score
     from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+    from sklearn.model_selection import KFold  # , cross_val_score
 
-    model = LinearDiscriminantAnalysis()  # valori a caso per non avere errori
-    x = [] * 10
-    y = [] * 10
+    _model = LinearDiscriminantAnalysis()  # valori a caso per non avere errori
+    _x = [] * 10
+    _y = [] * 10
     kf = KFold(n_splits=5, shuffle=True, random_state=42)
     # scores = cross_val_score(
     #  model, x, y, cv=kf
@@ -87,7 +87,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Trattandosi di un metodo di partizionamento particolarmente/estremamente "esaustivo", vanno fatte alcune considerazioni sul campo di applicazione. Sia ad esempio un dataset di 1000 vettori di dati. Con il L1O, se nel dataset è presente un gruppo di dati particolarmente correlati, l'insieme di classificatori nei quali il singolo rimosso è ciascuno dei dati correlati tra loro finirà per non mostrare performance/metriche particolarmente diverse. Di fatto, pur avendo rimosso il dato "problematico", i dati correlati all'interno del training set causano qualche forma di bias nel modello finale. Per ovviare a questo problema, invece di rimuovere necessariamente il singolo, possiamo decidere di rimuovere un **gruppo** di dati
+    Trattandosi di un metodo di partizionamento particolarmente/estremamente "esaustivo", vanno fatte alcune considerazioni sul campo di applicazione. Sia ad esempio un dataset di 1000 vettori di dati. Con il L1Out, se nel dataset è presente un gruppo di dati particolarmente correlati, l'insieme di classificatori nei quali il singolo rimosso è ciascuno dei dati correlati tra loro finirà per non mostrare performance/metriche particolarmente diverse. Di fatto, pur avendo rimosso il dato "problematico", i dati correlati all'interno del training set causano qualche forma di bias nel modello finale. Per ovviare a questo problema, invece di rimuovere necessariamente il singolo, possiamo decidere di rimuovere un **gruppo** di dati
     """)
     return
 
@@ -135,21 +135,20 @@ def _(mo):
 def _():
     # Import parziali
 
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    # Import totali
+    import pandas as pd
+    import seaborn as sns
     from sklearn.datasets import load_breast_cancer
+    from sklearn.metrics import confusion_matrix
     from sklearn.model_selection import cross_val_score
     from sklearn.preprocessing import StandardScaler
     from sklearn.svm import SVC
-    from sklearn.metrics import confusion_matrix
-
-    # Import totali
-
-    import pandas as np
-    import numpy as np
-    import seaborn as sns
-    import matplotlib.pyplot as plt
 
     # Assegnazione del dataset completo, delle misure e della colonna delle etichette
-    dataset = load_breast_cancer
+    dataset = load_breast_cancer()
     x = dataset.data
     y = dataset.target
 
