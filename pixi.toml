@@ -1,0 +1,14 @@
+[workspace]
+authors = ["Vittorio Strano <vittostrano3302@gmail.com>"]
+channels = ["conda-forge"]
+name = "ml-class-2526"
+platforms = ["win-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+marimo = ">=0.23.9,<0.24"
+nbformat = ">=5.10.4,<6"
+python = ">=3.14.6,<3.15"
+python-lsp-server = ">=1.14.0,<2"

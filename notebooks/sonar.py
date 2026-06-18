@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.23.5"
+__generated_with = "0.23.9"
 app = marimo.App(auto_download=["ipynb"])
 
 with app.setup:
@@ -168,7 +168,7 @@ def _(accuracy, f1, precision, recall):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    I valori qui sopra si aggirano sulla fascia $70-80\%$, che può essere migliorata. Si applica allora un algoritmo di riduzione delle feature (esistono alcuni metodi già inclusi in scikit-learn, ma qui si opera un semplice for-loop).
+    I valori qui sopra si aggirano sulla fascia $70-80\%$ (con occasionali eccezioni), che può essere migliorata. Si applica allora un algoritmo di riduzione delle feature (esistono alcuni metodi già inclusi in scikit-learn, ma qui si opera un semplice for-loop).
     """)
     return
 
@@ -195,6 +195,8 @@ def _():
 def _(x):
     feature_count = x.shape[1]
     # visto che sappiamo che x è un vettore 1D in realtà va bene anche il metodo nativo .len(), anche perché ci aspettiamo uno scalare
+
+    print(feature_count)
     return
 
 
